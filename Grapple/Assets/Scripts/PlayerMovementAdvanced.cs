@@ -256,7 +256,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // turn gravity off while on slope
         if(!wallrunning) rb.useGravity = !OnSlope();
         
-        rb.AddForce(Vector3.down * gravity);
+        if (!grounded)
+            rb.AddForce(Vector3.down * gravity);
     }
 
     private void SpeedControl()
