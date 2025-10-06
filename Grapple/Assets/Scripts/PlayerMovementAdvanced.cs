@@ -10,6 +10,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float sprintSpeed;
     public float slideSpeed;
     public float wallrunSpeed;
+    [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
@@ -242,6 +243,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
         // turn gravity off while on slope
         if(!wallrunning) rb.useGravity = !OnSlope();
+        
+        rb.AddForce(Vector3.down * gravity);
     }
 
     private void SpeedControl()
