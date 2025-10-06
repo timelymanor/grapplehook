@@ -93,6 +93,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
+        
+        Debug.Log(rb.linearVelocity);
     }
 
     private void FixedUpdate()
