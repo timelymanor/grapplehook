@@ -2,15 +2,34 @@ using UnityEngine;
 
 public class Climbing : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("References")] 
+    public Transform orientation;
+    public Rigidbody rb;
+    public LayerMask whatIsWall;
+    
+    [Header("Climbing")]
+    public float climbSpeed;
+    public float maxClimbTime;
+    private float climbTimer;
 
-    // Update is called once per frame
-    void Update()
+    private bool climbing;
+
+    [Header("Detection")]
+    public float detectionLength;
+    public float sphereCastRadius;
+    public float maxWallLookAngle;
+    private float wallLookAngle;
+
+    private RaycastHit frontWallHit;
+    private bool wallFront;
+
+    private void Update()
     {
-        
+        WallCheck();
+    }
+    private void WallCheck()
+    {
+        wallFront = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward, out frontWallHit, detectionLength, whatIsWall);
+        wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal); 
     }
 }
