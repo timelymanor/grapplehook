@@ -36,6 +36,10 @@ public class WallRunning : MonoBehaviour
     public float exitWallTime;
     private float exitWallTimer;
 
+    [Header("Gravity")] 
+    public bool useGravity;
+    public float gravityCounterForce;
+
     [Header("References")]
     public Transform orientation;
     private PlayerMovementAdvanced pm;
@@ -120,12 +124,14 @@ public class WallRunning : MonoBehaviour
         pm.wallrunning = true;
         
         wallRunTimer = maxWallRunTime;
+        
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
     }
 
     private void WallRunningMovement()
     {
-        rb.useGravity = false;
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.useGravity = useGravity;
+        
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
 
@@ -146,6 +152,10 @@ public class WallRunning : MonoBehaviour
         // push to wall force
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
+        
+        // weaken gravity
+        if(useGravity)
+            rb.AddForce(transform.up * gravityCounterForce, ForceMode.Force);
     }
 
     private void StopWallRun()
