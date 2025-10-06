@@ -48,6 +48,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     
 
     public Transform orientation;
+    public PlayerCam cam;
 
     float horizontalInput;
     float verticalInput;
@@ -94,7 +95,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
-        
+        if (!wallrunning )
+            cam.DoFov(desiredMoveSpeed + 80f);
         Debug.Log(rb.linearVelocity);
     }
 
