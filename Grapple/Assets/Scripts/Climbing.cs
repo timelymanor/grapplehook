@@ -67,7 +67,7 @@ public class Climbing : MonoBehaviour
 
     private void ClimbingMovement()
     {
-        rb.velocity = new Vector3(rb.velocity.x, climbSpeed, rb.velocity.z);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, climbSpeed, rb.linearVelocity.z);
     }
 
     private void StopClimbing()

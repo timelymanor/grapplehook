@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 291509388}
   - component: {fileID: 291509387}
   - component: {fileID: 291509386}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,6 +643,7 @@ MonoBehaviour:
   sensX: 400
   sensY: 400
   orientation: {fileID: 2025132306}
+  camHolder: {fileID: 304193598}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +858,7 @@ GameObject:
   - component: {fileID: 1584887388}
   - component: {fileID: 1584887389}
   - component: {fileID: 1584887390}
+  - component: {fileID: 1584887391}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -943,10 +945,11 @@ MonoBehaviour:
   sprintSpeed: 10
   slideSpeed: 30
   wallrunSpeed: 8.5
+  gravity: 1.45
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 4
-  jumpForce: 10
+  jumpForce: 12
   jumpCooldown: 0.5
   airMultiplier: 0.4
   crouchSpeed: 3.5
@@ -958,8 +961,10 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  grounded: 0
   maxSlopeAngle: 50
   orientation: {fileID: 2025132306}
+  cam: {fileID: 330585549}
   state: 0
   sliding: 0
   wallrunning: 0
@@ -985,13 +990,40 @@ MonoBehaviour:
   wallJumpUpForce: 7
   wallJumpSideForce: 12
   wallClimbSpeed: 1.2
-  maxWallRunTime: 1.5
+  maxWallRunTime: 0.7
   jumpKey: 32
   upwardsRunKey: 304
   downwardsRunKey: 306
   wallCheckDistance: 0.7
   minJumpHeight: 2
+  exitWallTime: 1
+  useGravity: 1
+  gravityCounterForce: 2.04
   orientation: {fileID: 2025132306}
+  cam: {fileID: 330585549}
+--- !u!114 &1584887391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584887384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398fa5c1ee307a241a84454a9249099c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 2025132306}
+  rb: {fileID: 1584887385}
+  pm: {fileID: 1584887389}
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 192
+  climbSpeed: 10
+  maxClimbTime: 0.75
+  detectionLength: 0.7
+  sphereCastRadius: 0.25
+  maxWallLookAngle: 30
 --- !u!1 &1891866870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +1036,7 @@ GameObject:
   - component: {fileID: 1891866874}
   - component: {fileID: 1891866873}
   - component: {fileID: 1891866872}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1253,7 +1285,7 @@ GameObject:
   - component: {fileID: 2131755508}
   - component: {fileID: 2131755507}
   - component: {fileID: 2131755506}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
