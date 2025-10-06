@@ -63,6 +63,7 @@ public class Climbing : MonoBehaviour
     private void StartClimbing()
     {
         climbing = true;
+        pm.climbing = true;
     }
 
     private void ClimbingMovement()
@@ -73,5 +74,6 @@ public class Climbing : MonoBehaviour
     private void StopClimbing()
     {
         climbing = false;
+        pm.climbing = false;
     }
 }

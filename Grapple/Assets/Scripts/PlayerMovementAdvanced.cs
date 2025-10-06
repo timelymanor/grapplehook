@@ -10,6 +10,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float sprintSpeed;
     public float slideSpeed;
     public float wallrunSpeed;
+    public float climbSpeed;
     [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
@@ -63,11 +64,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
         walking,
         sprinting,
         wallrunning,
+        climbing,
         crouching,
         sliding,
         air
     }
 
+    public bool climbing;
     public bool sliding;
     public bool wallrunning;
 
@@ -136,6 +139,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StateHandler()
     {
+        
+        // Mode - Climbing
+        if (climbing)
+        {
+            state = MovementState.climbing;
+            desiredMoveSpeed = climbSpeed;
+        }
         // Mode - Sliding
         if (wallrunning)
         {
