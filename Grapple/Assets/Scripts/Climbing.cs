@@ -15,6 +15,13 @@ public class Climbing : MonoBehaviour
 
     private bool climbing;
 
+    [Header("ClimbJump")] 
+    public float climbJumpUpForce;
+    public float climbJumpBackForce;
+    public KeyCode jumpKey = KeyCode.Space;
+    public int climbJumps;
+    private int climbJumpsLeft;
+
     [Header("Detection")]
     public float detectionLength;
     public float sphereCastRadius;
@@ -23,6 +30,10 @@ public class Climbing : MonoBehaviour
 
     private RaycastHit frontWallHit;
     private bool wallFront;
+
+    private Transform lastWall;
+    private Vector3 lastWallNormal;
+    public float minWallNormalAngleChange;
 
     private void Update()
     {
@@ -75,5 +86,13 @@ public class Climbing : MonoBehaviour
     {
         climbing = false;
         pm.climbing = false;
+    }
+
+    private void ClimbJump()
+    {
+        Vector3 forceToApply = transform.up *  climbJumpUpForce + frontWallHit.normal * climbJumpBackForce;
+        
+        rb.linearVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.AddForce(forceToApply, ForceMode.Impulse);
     }
 }
