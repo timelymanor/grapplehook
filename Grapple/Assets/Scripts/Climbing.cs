@@ -5,6 +5,7 @@ public class Climbing : MonoBehaviour
     [Header("References")] 
     public Transform orientation;
     public Rigidbody rb;
+    public PlayerMovementAdvanced pm;
     public LayerMask whatIsWall;
     
     [Header("Climbing")]
@@ -26,10 +27,51 @@ public class Climbing : MonoBehaviour
     private void Update()
     {
         WallCheck();
+        StateMachine();
+        
+        if(climbing)
+            ClimbingMovement();
+    }
+
+    private void StateMachine()
+    {
+        if (wallFront && Input.GetKey(KeyCode.W) && wallLookAngle < maxWallLookAngle)
+        {
+            if (!climbing && climbTimer > 0) StartClimbing();
+            
+            // timer
+            if (climbTimer > 0) climbTimer -= Time.deltaTime;
+            if (climbTimer <= 0) StopClimbing();
+        }
+
+        else
+        {
+            if(climbing) StopClimbing();
+        }
     }
     private void WallCheck()
     {
         wallFront = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward, out frontWallHit, detectionLength, whatIsWall);
-        wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal); 
+        wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal);
+
+        if (pm.grounded)
+        {
+            climbTimer = maxClimbTime;
+        }
+    }
+
+    private void StartClimbing()
+    {
+        climbing = true;
+    }
+
+    private void ClimbingMovement()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, climbSpeed, rb.velocity.z);
+    }
+
+    private void StopClimbing()
+    {
+        climbing = false;
     }
 }
