@@ -31,6 +31,11 @@ public class WallRunning : MonoBehaviour
     private bool wallLeft;
     private bool wallRight;
 
+    [Header("Exiting")]
+    private bool exitingWall;
+    public float exitWallTime;
+    private float exitWallTimer;
+
     [Header("References")]
     public Transform orientation;
     private PlayerMovementAdvanced pm;
@@ -75,11 +80,24 @@ public class WallRunning : MonoBehaviour
         downwardsRunning = Input.GetKey(downwardsRunKey);
 
         // State 1 - Wallrunning
-        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround())
+        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
         {
             if (!pm.wallrunning)
                 StartWallRun();
             if(Input.GetKeyDown(jumpKey)) WallJump();
+        }
+        
+        // State 2 - Exiting
+        else if (exitingWall)
+        {
+            if(pm.wallrunning)
+                StopWallRun();
+            
+            if(exitWallTimer > 0)
+                exitWallTimer -= Time.deltaTime;
+            
+            if(exitWallTimer <= 0)
+                exitingWall = false;
         }
 
         // State 3 - None
@@ -128,6 +146,8 @@ public class WallRunning : MonoBehaviour
 
     private void WallJump()
     {
+        exitingWall = true;
+        exitWallTimer = exitWallTime;
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
 
         Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
