@@ -945,7 +945,8 @@ MonoBehaviour:
   sprintSpeed: 10
   slideSpeed: 30
   wallrunSpeed: 8.5
-  gravity: 1.45
+  climbSpeed: 0
+  gravity: 3.18
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 4
@@ -966,6 +967,7 @@ MonoBehaviour:
   orientation: {fileID: 2025132306}
   cam: {fileID: 330585549}
   state: 0
+  climbing: 0
   sliding: 0
   wallrunning: 0
 --- !u!114 &1584887390
@@ -982,7 +984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -1019,11 +1021,16 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 192
-  climbSpeed: 10
+  climbSpeed: 8
   maxClimbTime: 0.75
+  climbJumpUpForce: 7
+  climbJumpBackForce: 12
+  jumpKey: 32
+  climbJumps: 3
   detectionLength: 0.7
   sphereCastRadius: 0.25
   maxWallLookAngle: 30
+  minWallNormalAngleChange: 0
 --- !u!1 &1891866870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,7 +1292,7 @@ GameObject:
   - component: {fileID: 2131755508}
   - component: {fileID: 2131755507}
   - component: {fileID: 2131755506}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
