@@ -9,12 +9,16 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float walkSpeed;
     public float sprintSpeed;
     public float slideSpeed;
+    public float dashSpeed;
+    public float dashSpeedChangeFactor;
     public float wallrunSpeed;
     public float climbSpeed;
     [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
+    private MovementState lastState;
+    private bool keepMomentum;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
@@ -67,6 +71,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         walking,
         sprinting,
         wallrunning,
+        dashing,
         climbing,
         crouching,
         sliding,
@@ -76,6 +81,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public bool climbing;
     public bool sliding;
     public bool wallrunning;
+    public bool dashing;
 
     private void Start()
     {
@@ -97,12 +103,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
         StateHandler();
 
         // handle drag
-        if (grounded)
+        if (state == MovementState.walking || state == MovementState.sprinting || state == MovementState.crouching)
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
         if (!wallrunning )
             cam.DoFov(desiredMoveSpeed + 80f);
+        
         Debug.Log(rb.linearVelocity.magnitude);
     }
 
@@ -142,15 +149,21 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StateHandler()
     {
-        
+
+        if (dashing)
+        {
+            state =  MovementState.dashing;
+            moveSpeed = dashSpeed;
+            speedIncreaseMultiplier = dashSpeedChangeFactor;
+        }
         // Mode - Climbing
-        if (climbing)
+        else if (climbing)
         {
             state = MovementState.climbing;
             desiredMoveSpeed = climbSpeed;
         }
         // Mode - Sliding
-        if (wallrunning)
+        else if (wallrunning)
         {
             state = MovementState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
@@ -191,10 +204,18 @@ public class PlayerMovementAdvanced : MonoBehaviour
         else
         {
             state = MovementState.air;
+
+            if (desiredMoveSpeed < sprintSpeed)
+            {
+                desiredMoveSpeed = walkSpeed;
+            }
+            else
+            {
+                desiredMoveSpeed = sprintSpeed;
+            }
         }
 
-        // check if desiredMoveSpeed has changed drastically
-        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
+        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 8f && moveSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -203,16 +224,33 @@ public class PlayerMovementAdvanced : MonoBehaviour
         {
             moveSpeed = desiredMoveSpeed;
         }
+        
+        bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;
+        if (lastState == MovementState.dashing) keepMomentum = true;
+
+        if (desiredMoveSpeedHasChanged)
+        {
+            if (keepMomentum)
+            {
+
+            }
+            else
+            {
+                moveSpeed = desiredMoveSpeed;
+            }
+        }
 
         lastDesiredMoveSpeed = desiredMoveSpeed;
+        lastState = state;
     }
-
+    
     private IEnumerator SmoothlyLerpMoveSpeed()
     {
         // smoothly lerp movementSpeed to desired value
         float time = 0;
         float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
         float startValue = moveSpeed;
+        
 
         while (time < difference)
         {
@@ -236,7 +274,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (climbingScript.exitingWall) return;
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         moveDirection.Normalize();
