@@ -59,6 +59,7 @@ public class Climbing : MonoBehaviour
         {
             if(climbing) StopClimbing();
         }
+        if (wallFront && Input.GetKeyDown(jumpKey) && climbTimer > 0) ClimbJump();
     }
     private void WallCheck()
     {
