@@ -92,7 +92,9 @@ public class Climbing : MonoBehaviour
     {
         Vector3 forceToApply = transform.up *  climbJumpUpForce + frontWallHit.normal * climbJumpBackForce;
         
-        rb.linearVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
+
+        climbJumpsLeft--;
     }
 }
