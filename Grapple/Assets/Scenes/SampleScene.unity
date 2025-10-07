@@ -439,7 +439,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.79, y: 4.95, z: -15.26}
-  m_LocalScale: {x: 2.038418, y: 5.9441676, z: 15.785528}
+  m_LocalScale: {x: 2.038418, y: 15.660503, z: 15.785528}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -946,7 +946,7 @@ MonoBehaviour:
   slideSpeed: 30
   wallrunSpeed: 8.5
   climbSpeed: 0
-  gravity: 3.18
+  gravity: 0.07
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 4
@@ -964,6 +964,7 @@ MonoBehaviour:
     m_Bits: 64
   grounded: 0
   maxSlopeAngle: 50
+  climbingScript: {fileID: 1584887391}
   orientation: {fileID: 2025132306}
   cam: {fileID: 330585549}
   state: 0
@@ -1012,7 +1013,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1584887384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398fa5c1ee307a241a84454a9249099c, type: 3}
+  m_Script: {fileID: 11500000, guid: e5135edb52c9c56469c45d853260e541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 2025132306}
@@ -1024,13 +1025,15 @@ MonoBehaviour:
   climbSpeed: 8
   maxClimbTime: 0.75
   climbJumpUpForce: 7
-  climbJumpBackForce: 12
+  climbJumpBackForce: 24
   jumpKey: 32
-  climbJumps: 3
+  climbJumps: 1
   detectionLength: 0.7
   sphereCastRadius: 0.25
   maxWallLookAngle: 30
-  minWallNormalAngleChange: 0
+  minWallNormalAngleChange: 5
+  exitingWall: 0
+  exitWallTime: 0.25
 --- !u!1 &1891866870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1386,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.12, y: 4.95, z: -7.7611}
-  m_LocalScale: {x: 2.038418, y: 5.9441676, z: 15.785528}
+  m_LocalScale: {x: 2.038418, y: 18.303875, z: 15.785528}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
