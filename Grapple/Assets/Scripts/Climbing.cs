@@ -65,10 +65,13 @@ public class Climbing : MonoBehaviour
     {
         wallFront = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward, out frontWallHit, detectionLength, whatIsWall);
         wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal);
+        
+        bool newWall = frontWallHit.transform != lastWall || Mathf.Abs(Vector3.Angle(lastWallNormal, frontWallHit.normal)) > minWallNormalAngleChange;
 
-        if (pm.grounded)
+        if ((wallFront && newWall) || pm.grounded)
         {
             climbTimer = maxClimbTime;
+            climbJumpsLeft = climbJumps;
         }
     }
 
@@ -76,6 +79,9 @@ public class Climbing : MonoBehaviour
     {
         climbing = true;
         pm.climbing = true;
+        
+        lastWall = frontWallHit.transform;
+        lastWallNormal = frontWallHit.normal;
     }
 
     private void ClimbingMovement()
