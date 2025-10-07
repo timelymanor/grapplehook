@@ -53,6 +53,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     float horizontalInput;
     float verticalInput;
+    
 
     Vector3 moveDirection;
 
@@ -100,7 +101,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.linearDamping = 0;
         if (!wallrunning )
             cam.DoFov(desiredMoveSpeed + 80f);
-        Debug.Log(rb.linearVelocity);
+        Debug.Log(rb.linearVelocity.magnitude);
     }
 
     private void FixedUpdate()
@@ -235,6 +236,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection.Normalize();
 
         // on slope
         if (OnSlope() && !exitingSlope)
