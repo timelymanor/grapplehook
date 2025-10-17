@@ -46,8 +46,10 @@ public class Dashing : MonoBehaviour
 
         if (dashCdTimer > 0)
             dashCdTimer -= Time.deltaTime;
+        Debug.Log(dashDuration);
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private void Dash()
     {
         if (dashCdTimer > 0) return;

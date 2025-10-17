@@ -15,6 +15,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float climbSpeed;
     [SerializeField] private float gravity;
 
+    public float maxYSpeed;
+
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
     private MovementState lastState;
@@ -231,11 +233,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
         if (desiredMoveSpeedHasChanged)
         {
             if (keepMomentum)
-            {
-
+            {  
+                StopAllCoroutines();
+             StartCoroutine(SmoothlyLerpMoveSpeed());
             }
             else
             {
+                StopAllCoroutines();
                 moveSpeed = desiredMoveSpeed;
             }
         }
@@ -274,6 +278,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MovePlayer()
     {
+
+        if (state == MovementState.dashing) return;
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         moveDirection.Normalize();
@@ -322,6 +328,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
+        }
+
+        if (maxYSpeed != 0 && rb.linearVelocity.y > maxYSpeed)
+        {
+            
         }
     }
 
