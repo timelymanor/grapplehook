@@ -331,7 +331,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         if (maxYSpeed != 0 && rb.linearVelocity.y > maxYSpeed)
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, maxYSpeed, rb.linearVelocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
     }
 
     private void Jump()
