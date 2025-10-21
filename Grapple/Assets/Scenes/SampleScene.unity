@@ -1191,6 +1191,7 @@ GameObject:
   - component: {fileID: 1584887388}
   - component: {fileID: 1584887389}
   - component: {fileID: 1584887390}
+  - component: {fileID: 1584887391}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1333,6 +1334,20 @@ MonoBehaviour:
   gravityCounterForce: 0
   orientation: {fileID: 2025132306}
   cam: {fileID: 330585549}
+--- !u!114 &1584887391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584887384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804aa5e338f10ef488cb6f72ea9b323a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleKey: 0
+  grappleSpeed: 5
 --- !u!1 &1829743440
 GameObject:
   m_ObjectHideFlags: 0
