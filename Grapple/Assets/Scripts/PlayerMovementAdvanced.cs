@@ -6,35 +6,35 @@ public class PlayerMovementAdvanced : MonoBehaviour
 {
     [Header("Movement")]
     private float moveSpeed;
-    public float walkSpeed;
-    public float sprintSpeed;
-    public float slideSpeed;
-    public float wallrunSpeed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float sprintSpeed;
+    [SerializeField] private float slideSpeed;
+    [SerializeField] private float wallrunSpeed;
     [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
 
-    public float speedIncreaseMultiplier;
-    public float slopeIncreaseMultiplier;
+    [SerializeField] private float speedIncreaseMultiplier;
+    [SerializeField] private float slopeIncreaseMultiplier;
 
     public float groundDrag;
 
     [Header("Jumping")]
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpCooldown;
+    [SerializeField] private float airMultiplier;
     bool readyToJump;
 
     [Header("Crouching")]
-    public float crouchSpeed;
-    public float crouchYScale;
+    [SerializeField] private float crouchSpeed;
+    [SerializeField] private float crouchYScale;
     private float startYScale;
 
     [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -70,6 +70,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public bool sliding;
     public bool wallrunning;
+    public float moveMagnitude;
 
     private void Start()
     {
