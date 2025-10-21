@@ -13,6 +13,6 @@ public class UIDisplay : MonoBehaviour
 
     void Update()
     {
-        speedText.text = pma.moveMagnitude.ToString("F2");
+        speedText.text = pma.moveMagnitude.ToString("0");
     }
 }
