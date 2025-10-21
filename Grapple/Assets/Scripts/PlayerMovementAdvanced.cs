@@ -98,7 +98,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.linearDamping = 0;
         if (!wallrunning )
             cam.DoFov(desiredMoveSpeed + 80f);
-        Debug.Log(rb.linearVelocity);
+        moveMagnitude = rb.linearVelocity.magnitude;
     }
 
     private void FixedUpdate()
