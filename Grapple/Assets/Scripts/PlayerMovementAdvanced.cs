@@ -306,6 +306,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         activeGrapple = true;
         velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         Invoke(nameof(SetVelocity), 0.1f);
+        
+        Invoke(nameof(ResetRestrictions), 3f);
     }
 
     private Vector3 velocityToSet;
@@ -314,11 +316,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         enableMovementOnNextTouch = true;
         rb.linearVelocity = velocityToSet;
+        
+        cam.DoFov(120f);
     }
 
     public void ResetRestrictions()
     {
         activeGrapple = false;
+        cam.DoFov(85f);
     }
 
     private void OnCollisionEnter(Collision collision)
