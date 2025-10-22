@@ -11,8 +11,8 @@ public class Grappling : MonoBehaviour
 
     [Header("Grappling")] 
     [SerializeField] private float maxGrappleDistance;
-
     [SerializeField] private float grappleDelayTime;
+    public float overshootYAxis;
     private Vector3 grapplePoint;
 
     [Header("Cooldown")] 
@@ -73,9 +73,20 @@ public class Grappling : MonoBehaviour
     private void ExecuteGrapple()
     {
         pm.freeze = false;
+
+        Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
+
+        float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
+        float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
+
+        if (grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
+
+        pm.JumpToPosition(grapplePoint, highestPointOnArc);
+
+        Invoke(nameof(StopGrapple), 1f);
     }
 
-    private void StopGrapple()
+    public void StopGrapple()
     {
         pm.freeze = false;
         

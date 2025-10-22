@@ -95,7 +95,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         StateHandler();
 
         // handle drag
-        if (grounded)
+        if (grounded && !activeGrapple)
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
@@ -233,6 +233,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (activeGrapple) return;
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -261,6 +262,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void SpeedControl()
     {
+        if (activeGrapple) return;
         // limiting speed on slope
         if (OnSlope() && !exitingSlope)
         {
@@ -298,10 +300,36 @@ public class PlayerMovementAdvanced : MonoBehaviour
         exitingSlope = false;
     }
 
+    private bool enableMovementOnNextTouch;
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
         activeGrapple = true;
-        rb.velocity = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+        velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+        Invoke(nameof(SetVelocity), 0.1f);
+    }
+
+    private Vector3 velocityToSet;
+
+    private void SetVelocity()
+    {
+        enableMovementOnNextTouch = true;
+        rb.velocity = velocityToSet;
+    }
+
+    public void ResetRestrictions()
+    {
+        activeGrapple = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (enableMovementOnNextTouch)
+        {
+            enableMovementOnNextTouch = false;
+            ResetRestrictions();
+
+            GetComponent<Grappling>().StopGrapple();
+        }
     }
 
     public bool OnSlope()
