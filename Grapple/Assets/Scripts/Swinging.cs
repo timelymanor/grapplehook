@@ -20,6 +20,7 @@ public class Swinging : MonoBehaviour
     {
         if (Input.GetKeyDown(swingKey)) StartSwing();
         if (Input.GetKeyUp(swingKey)) StopSwing();
+        if (joint) DrawRope();
     }
     private void StartSwing()
     {
