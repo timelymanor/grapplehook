@@ -313,7 +313,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private void SetVelocity()
     {
         enableMovementOnNextTouch = true;
-        rb.velocity = velocityToSet;
+        rb.linearVelocity = velocityToSet;
     }
 
     public void ResetRestrictions()
