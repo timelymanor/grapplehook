@@ -60,6 +60,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public MovementState state;
     public enum MovementState
     {
+        freeze,
         walking,
         sprinting,
         wallrunning,
