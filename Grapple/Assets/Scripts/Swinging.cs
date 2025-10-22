@@ -9,6 +9,7 @@ public class Swinging : MonoBehaviour
     [SerializeField] private LineRenderer lr;
     [SerializeField] private Transform gunTip, cam, player;
     [SerializeField] private LayerMask whatIsGrappleable;
+    [SerializeField] private PlayerMovementAdvanced pm;
 
     [Header("Swinging")]
     private float maxSwingDistance = 25f;
@@ -22,6 +23,7 @@ public class Swinging : MonoBehaviour
     }
     private void StartSwing()
     {
+        pm.swinging = true;
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
         {
@@ -46,6 +48,7 @@ public class Swinging : MonoBehaviour
 
     void StopSwing()
     {
+        pm.swinging = false;
         lr.positionCount = 0;
         Destroy(joint);
     }

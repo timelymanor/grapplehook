@@ -10,6 +10,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float slideSpeed;
     [SerializeField] private float wallrunSpeed;
+    [SerializeField] private float swingSpeed;
     // [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
@@ -61,6 +62,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public enum MovementState
     {
         freeze,
+        grappling,
+        swinging,
         walking,
         sprinting,
         wallrunning,
@@ -74,6 +77,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float moveMagnitude;
     public bool freeze;
     public bool activeGrapple;
+    public bool swinging;
 
     private void Start()
     {
@@ -161,6 +165,17 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
             else
                 desiredMoveSpeed = sprintSpeed;
+        }
+        // Mode - Grappling
+        else if (activeGrapple)
+        {
+            state = MovementState.grappling;
+            moveSpeed = sprintSpeed;
+        }
+        else if (swinging)
+        {
+            state =  MovementState.swinging;
+            moveSpeed = swingSpeed;
         }
 
         // Mode - Crouching
