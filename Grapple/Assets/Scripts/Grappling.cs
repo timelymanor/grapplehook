@@ -51,6 +51,8 @@ public class Grappling : MonoBehaviour
         
         grappling = true;
 
+        pm.freeze = true;
+
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
@@ -70,11 +72,13 @@ public class Grappling : MonoBehaviour
 
     private void ExecuteGrapple()
     {
-        
+        pm.freeze = false;
     }
 
     private void StopGrapple()
     {
+        pm.freeze = false;
+        
         grappling = false;
         
         grapplingCdTimer = grapplingCd;

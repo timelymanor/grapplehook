@@ -10,7 +10,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float slideSpeed;
     [SerializeField] private float wallrunSpeed;
-    [SerializeField] private float gravity;
+    // [SerializeField] private float gravity;
 
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
@@ -72,6 +72,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public bool sliding;
     public bool wallrunning;
     public float moveMagnitude;
+    public bool freeze;
+    public bool activeGrapple;
 
     private void Start()
     {
@@ -138,6 +140,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void StateHandler()
     {
+        if (freeze)
+        {
+            state = MovementState.freeze;
+            moveSpeed = 0;
+            rb.linearVelocity = Vector3.zero;
+        }
         // Mode - Sliding
         if (wallrunning)
         {
@@ -248,7 +256,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // turn gravity off while on slope
         if(!wallrunning) rb.useGravity = !OnSlope();
         
-        rb.AddForce(Vector3.down * gravity);
+        // rb.AddForce(Vector3.down * gravity);
     }
 
     private void SpeedControl()
@@ -290,6 +298,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
         exitingSlope = false;
     }
 
+    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
+    {
+        rb.velocity = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+    }
+
     public bool OnSlope()
     {
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
@@ -304,5 +317,18 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+    
+    public Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajectoryHeight)
+    {
+        float gravity = Physics.gravity.y;
+        float displacementY = endPoint.y - startPoint.y;
+        Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
+
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) 
+                                               + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+
+        return velocityXZ + velocityY;
     }
 }
