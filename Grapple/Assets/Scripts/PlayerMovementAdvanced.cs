@@ -300,6 +300,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
+        activeGrapple = true;
         rb.velocity = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
     }
 
