@@ -48,7 +48,7 @@ public class Grappling : MonoBehaviour
     private void StartGrapple()
     {
         if (grapplingCdTimer > 0) return;
-        
+        GetComponent<Swinging>().StopSwing();
         grappling = true;
 
         pm.freeze = true;

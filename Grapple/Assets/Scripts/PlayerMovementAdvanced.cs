@@ -279,6 +279,20 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private void SpeedControl()
     {
         if (activeGrapple) return;
+
+// Allow swinging but with soft cap
+        if (swinging)
+        {
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+            // only limit horizontal speed when exceeding swingSpeed
+            if (flatVel.magnitude > swingSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * swingSpeed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
+            return;
+        }
         // limiting speed on slope
         if (OnSlope() && !exitingSlope)
         {

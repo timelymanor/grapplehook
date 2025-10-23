@@ -16,6 +16,11 @@ public class Swinging : MonoBehaviour
     private Vector3 swingPoint;
     private SpringJoint joint;
 
+    [Header("Prediction")] 
+    [SerializeField] private RaycastHit predictionHit;
+    [SerializeField] private float predictionSphereCastRadius;
+    [SerializeField] private Transform predictionPoint;
+
     [Header("Odmgear")] 
     [SerializeField] private Transform orientation;
 
@@ -30,16 +35,22 @@ public class Swinging : MonoBehaviour
         if (Input.GetKeyDown(swingKey)) StartSwing();
         if (Input.GetKeyUp(swingKey)) StopSwing();
 
-        if (joint != null) OdmGearMovement();
+        if (joint != null)
+        {
+            OdmGearMovement();
+        }
+        CheckForSwingPoints();
+        if (joint) DrawRope();
 
     }
     private void StartSwing()
     {
+        GetComponent<Grappling>().StopGrapple();
+        pm.ResetRestrictions();
         pm.swinging = true;
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
         {
-            DrawRope();
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
@@ -50,8 +61,8 @@ public class Swinging : MonoBehaviour
             joint.maxDistance = distanceFromPoint * 0.8f;
             joint.minDistance = distanceFromPoint * 0.25f;
 
-            joint.spring = 12f;   // stronger pull toward anchor
-            joint.damper = 4.5f;  // smoother motion
+            joint.spring = 14f;   // stronger pull toward anchor
+            joint.damper = 2.5f;  // smoother motion
             joint.massScale = 1f; // less sluggishness
             
             lr.positionCount = 2;
@@ -63,7 +74,7 @@ public class Swinging : MonoBehaviour
         }
     }
 
-    void StopSwing()
+    public void StopSwing()
     {
         pm.swinging = false;
         lr.positionCount = 0;
@@ -114,6 +125,11 @@ public class Swinging : MonoBehaviour
             joint.maxDistance = extendedDistanceFromPoint * 0.8f;
             joint.minDistance = extendedDistanceFromPoint * 0.25f;
         }
+    }
+
+    private void CheckForSwingPoints()
+    {
+        
     }
 
 }
