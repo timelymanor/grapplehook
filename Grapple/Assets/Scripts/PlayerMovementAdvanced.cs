@@ -249,6 +249,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private void MovePlayer()
     {
         if (activeGrapple) return;
+        if (swinging) return;
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
