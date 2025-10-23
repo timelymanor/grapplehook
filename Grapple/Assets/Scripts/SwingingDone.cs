@@ -159,7 +159,6 @@ public class SwingingDone : MonoBehaviour
             joint.minDistance = extendedDistanceFromPoint * 0.25f;
         }
         
-        
     }
 
     private Vector3 currentGrapplePosition;
