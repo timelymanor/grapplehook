@@ -1507,7 +1507,7 @@ MonoBehaviour:
   sprintSpeed: 10
   slideSpeed: 30
   wallrunSpeed: 8.5
-  swingSpeed: 30
+  swingSpeed: 111.5
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 4
@@ -1610,6 +1610,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pm: {fileID: 1584887389}
+  orientation: {fileID: 2025132306}
+  rb: {fileID: 1584887385}
+  horizontalThrustForce: 3000
+  forwardThrustForce: 2000
+  extendCableSpeed: 20
 --- !u!120 &1584887393
 LineRenderer:
   serializedVersion: 2
