@@ -113,7 +113,7 @@ public class SwingingDone : MonoBehaviour
 
         // customize values as you like
         joint.spring = 4.5f;
-        joint.damper = 7f;
+        joint.damper = 2f;
         joint.massScale = 4.5f;
 
         lr.positionCount = 2;
