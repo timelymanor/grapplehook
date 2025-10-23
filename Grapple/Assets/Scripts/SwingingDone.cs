@@ -142,13 +142,9 @@ public class SwingingDone : MonoBehaviour
         // shorten cable
         if (Input.GetKey(KeyCode.Space))
         {
-            Vector3 directionToPoint = swingPoint - transform.position;
-            rb.AddForce(directionToPoint.normalized * forwardThrustForce * Time.deltaTime);
-
-            float distanceFromPoint = Vector3.Distance(transform.position, swingPoint);
-
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
+            // Gradually shorten cable without directly adding force
+            joint.maxDistance = Mathf.Max(joint.maxDistance - extendCableSpeed * Time.deltaTime, 1f);
+            joint.minDistance = Mathf.Max(joint.minDistance - extendCableSpeed * 0.25f * Time.deltaTime, 0.5f);
         }
         // extend cable
         if (Input.GetKey(KeyCode.S))
@@ -158,6 +154,8 @@ public class SwingingDone : MonoBehaviour
             joint.maxDistance = extendedDistanceFromPoint * 0.8f;
             joint.minDistance = extendedDistanceFromPoint * 0.25f;
         }
+        
+        
     }
 
     private Vector3 currentGrapplePosition;
