@@ -1938,9 +1938,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 7
   sprintSpeed: 10
-  slideSpeed: 30
-  wallrunSpeed: 8.5
   swingSpeed: 17
+  wallrunSpeed: 8.5
+  slideSpeed: 30
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 4
@@ -1957,15 +1957,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   maxSlopeAngle: 50
-  orientation: {fileID: 2025132306}
   cam: {fileID: 330585549}
+  grappleFov: 95
+  orientation: {fileID: 2025132306}
   state: 0
   sliding: 0
   wallrunning: 0
-  moveMagnitude: 0
   freeze: 0
   activeGrapple: 0
   swinging: 0
+  moveMagnitude: 0
 --- !u!114 &1584887390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2018,7 +2019,7 @@ MonoBehaviour:
     m_Bits: 64
   lr: {fileID: 19230486}
   maxGrappleDistance: 25
-  grappleDelayTime: 0.25
+  grappleDelayTime: 0
   overshootYAxis: 2
   grapplingCd: 1
   grappleKey: 324
@@ -2034,25 +2035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d746d87295e87ce42a512b42efbc5197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingKey: 323
-  lr: {fileID: 1584887393}
-  gunTip: {fileID: 1267771188}
-  cam: {fileID: 330585546}
-  player: {fileID: 1584887386}
-  whatIsGrappleable:
-    m_Bits: 64
-  pm: {fileID: 1584887389}
-  maxSwingDistance: 25
-  swingPoint: {x: 0, y: 0, z: 0}
-  joint: {fileID: 0}
-  predictionSphereCastRadius: 0
-  predictionPoint: {fileID: 0}
-  orientation: {fileID: 2025132306}
-  rb: {fileID: 1584887385}
-  horizontalThrustForce: 3000
-  forwardThrustForce: 2000
-  extendCableSpeed: 20
-  currentGrapplePosition: {x: 0, y: 0, z: 0}
 --- !u!120 &1584887393
 LineRenderer:
   serializedVersion: 2
