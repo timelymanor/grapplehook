@@ -21,6 +21,8 @@ public class SwingingDone : MonoBehaviour
     public float horizontalThrustForce;
     public float forwardThrustForce;
     public float extendCableSpeed;
+    [SerializeField] public float thrustFuel;
+    [SerializeField] public float fuelMax;
 
     [Header("Prediction")]
     public RaycastHit predictionHit;
@@ -39,6 +41,11 @@ public class SwingingDone : MonoBehaviour
         CheckForSwingPoints();
 
         if (joint != null) OdmGearMovement();
+
+        if (!joint)
+        {
+            thrustFuel = thrustFuel + 0.1f;
+        }
     }
 
     private void LateUpdate()
@@ -127,38 +134,58 @@ public class SwingingDone : MonoBehaviour
         lr.positionCount = 0;
 
         Destroy(joint);
+
+        thrustFuel = fuelMax;
     }
 
     private void OdmGearMovement()
     {
-        // right
-        if (Input.GetKey(KeyCode.D)) rb.AddForce(orientation.right * horizontalThrustForce * Time.deltaTime);
-        // left
-        if (Input.GetKey(KeyCode.A)) rb.AddForce(-orientation.right * horizontalThrustForce * Time.deltaTime);
-
-        // forward
-        if (Input.GetKey(KeyCode.W)) rb.AddForce(orientation.forward * horizontalThrustForce * Time.deltaTime);
-
-        // shorten cable
-        if (Input.GetKey(KeyCode.Space))
+        if (thrustFuel > 0)
         {
-            Vector3 directionToPoint = swingPoint - transform.position;
-            rb.AddForce(directionToPoint.normalized * forwardThrustForce * Time.deltaTime);
+            // right
+            if (Input.GetKey(KeyCode.D))
+            {
+                rb.AddForce(orientation.right * horizontalThrustForce * Time.deltaTime);
+                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+            }
 
-            float distanceFromPoint = Vector3.Distance(transform.position, swingPoint);
+            // left
+            if (Input.GetKey(KeyCode.A))
+            {
+                rb.AddForce(-orientation.right * horizontalThrustForce * Time.deltaTime);
+                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+            }
 
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
+            // forward
+            if (Input.GetKey(KeyCode.W))
+            {
+                rb.AddForce(orientation.forward * horizontalThrustForce * Time.deltaTime);
+                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+            }
+
+            // shorten cable
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Vector3 directionToPoint = swingPoint - transform.position;
+                rb.AddForce(directionToPoint.normalized * forwardThrustForce * Time.deltaTime);
+
+                float distanceFromPoint = Vector3.Distance(transform.position, swingPoint);
+
+                joint.maxDistance = distanceFromPoint * 0.8f;
+                joint.minDistance = distanceFromPoint * 0.25f;
+                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+            }
+
+            // extend cable
+            if (Input.GetKey(KeyCode.S))
+            {
+                float extendedDistanceFromPoint = Vector3.Distance(transform.position, swingPoint) + extendCableSpeed;
+
+                joint.maxDistance = extendedDistanceFromPoint * 0.8f;
+                joint.minDistance = extendedDistanceFromPoint * 0.25f;
+                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+            }
         }
-        // extend cable
-        if (Input.GetKey(KeyCode.S))
-        {
-            float extendedDistanceFromPoint = Vector3.Distance(transform.position, swingPoint) + extendCableSpeed;
-
-            joint.maxDistance = extendedDistanceFromPoint * 0.8f;
-            joint.minDistance = extendedDistanceFromPoint * 0.25f;
-        }
-        
     }
 
     private Vector3 currentGrapplePosition;
