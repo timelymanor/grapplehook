@@ -23,6 +23,7 @@ public class SwingingDone : MonoBehaviour
     public float extendCableSpeed;
     [SerializeField] public float thrustFuel;
     [SerializeField] public float fuelMax;
+    private bool isThrust = false;
 
     [Header("Prediction")]
     public RaycastHit predictionHit;
@@ -42,9 +43,14 @@ public class SwingingDone : MonoBehaviour
 
         if (joint != null) OdmGearMovement();
 
-        if (!joint)
+        if (!joint || !isThrust)
         {
             thrustFuel = thrustFuel + 0.1f;
+        }
+
+        if (thrustFuel >= fuelMax)
+        {
+            thrustFuel = fuelMax;
         }
     }
 
@@ -138,13 +144,19 @@ public class SwingingDone : MonoBehaviour
 
     private void OdmGearMovement()
     {
-        if (thrustFuel > 0)
+        if (thrustFuel >= 0)
         {
+            
             // right
             if (Input.GetKey(KeyCode.D))
             {
                 rb.AddForce(orientation.right * horizontalThrustForce * Time.deltaTime);
                 thrustFuel -= (pm.moveMagnitude * 0.01f);
+                isThrust = true;
+            }
+            else
+            {
+                isThrust = false;
             }
 
             // left
@@ -152,6 +164,11 @@ public class SwingingDone : MonoBehaviour
             {
                 rb.AddForce(-orientation.right * horizontalThrustForce * Time.deltaTime);
                 thrustFuel -= (pm.moveMagnitude * 0.01f);
+                isThrust = true;
+            }
+            else
+            {
+                isThrust = false;
             }
 
             // forward
@@ -159,6 +176,11 @@ public class SwingingDone : MonoBehaviour
             {
                 rb.AddForce(orientation.forward * horizontalThrustForce * Time.deltaTime);
                 thrustFuel -= (pm.moveMagnitude * 0.01f);
+                isThrust = true;
+            }
+            else
+            {
+                isThrust = false;
             }
 
             // shorten cable
@@ -172,6 +194,11 @@ public class SwingingDone : MonoBehaviour
                 joint.maxDistance = distanceFromPoint * 0.8f;
                 joint.minDistance = distanceFromPoint * 0.25f;
                 thrustFuel -= (pm.moveMagnitude * 0.01f);
+                isThrust = true;
+            }
+            else
+            {
+                isThrust = false;
             }
 
             // extend cable
@@ -182,7 +209,13 @@ public class SwingingDone : MonoBehaviour
                 joint.maxDistance = extendedDistanceFromPoint * 0.8f;
                 joint.minDistance = extendedDistanceFromPoint * 0.25f;
                 thrustFuel -= (pm.moveMagnitude * 0.01f);
+                isThrust = true;
             }
+            else
+            {
+                isThrust = false;
+            }
+            
         }
     }
 
