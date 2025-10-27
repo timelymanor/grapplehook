@@ -134,8 +134,6 @@ public class SwingingDone : MonoBehaviour
         lr.positionCount = 0;
 
         Destroy(joint);
-
-        thrustFuel = fuelMax;
     }
 
     private void OdmGearMovement()
@@ -146,21 +144,21 @@ public class SwingingDone : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 rb.AddForce(orientation.right * horizontalThrustForce * Time.deltaTime);
-                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+                thrustFuel -= (pm.moveMagnitude * 0.01f);
             }
 
             // left
             if (Input.GetKey(KeyCode.A))
             {
                 rb.AddForce(-orientation.right * horizontalThrustForce * Time.deltaTime);
-                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+                thrustFuel -= (pm.moveMagnitude * 0.01f);
             }
 
             // forward
             if (Input.GetKey(KeyCode.W))
             {
                 rb.AddForce(orientation.forward * horizontalThrustForce * Time.deltaTime);
-                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+                thrustFuel -= (pm.moveMagnitude * 0.01f);
             }
 
             // shorten cable
@@ -173,7 +171,7 @@ public class SwingingDone : MonoBehaviour
 
                 joint.maxDistance = distanceFromPoint * 0.8f;
                 joint.minDistance = distanceFromPoint * 0.25f;
-                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+                thrustFuel -= (pm.moveMagnitude * 0.01f);
             }
 
             // extend cable
@@ -183,7 +181,7 @@ public class SwingingDone : MonoBehaviour
 
                 joint.maxDistance = extendedDistanceFromPoint * 0.8f;
                 joint.minDistance = extendedDistanceFromPoint * 0.25f;
-                thrustFuel = thrustFuel - pm.moveMagnitude * 0.01f;
+                thrustFuel -= (pm.moveMagnitude * 0.01f);
             }
         }
     }

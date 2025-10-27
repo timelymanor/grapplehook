@@ -13,8 +13,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [SerializeField] private float wallrunSpeed;
     [SerializeField] private float slideSpeed;
 
-    private float desiredMoveSpeed;
-    private float lastDesiredMoveSpeed;
+    private float desiredMoveSpeed = 0;
+    private float lastDesiredMoveSpeed = 0;
 
     [SerializeField] private float speedIncreaseMultiplier = 2f;
     [SerializeField] private float slopeIncreaseMultiplier = 2f;
@@ -220,6 +220,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
         while (time < difference)
         {
+            if (horizontalInput == 0 && verticalInput == 0)
+            {
+                moveSpeed = 0;
+                yield break;
+            }
+            
             moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
 
             if (OnSlope())
