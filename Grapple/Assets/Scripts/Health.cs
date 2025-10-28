@@ -5,10 +5,13 @@ public class Health : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float health;
+    [SerializeField] private float iFrames;
+    [SerializeField] private float maxIFrames;
 
     void Start()
     {
         health = maxHealth;
+        iFrames = 0;
     }
 
     void Update()
@@ -17,11 +20,17 @@ public class Health : MonoBehaviour
         {
             
         }
+
+        iFrames--;
     }
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
+        if (iFrames > 0)
+        {
+            health -= damage;
+            iFrames = maxIFrames;
+        }
     }
 
     public void Death()

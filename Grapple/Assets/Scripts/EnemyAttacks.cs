@@ -52,7 +52,7 @@ public class EnemyAttacks : MonoBehaviour
 
     public void MeleeAttack()
     {
-        agent.SetDestination(player.position);
+        
     }
 
     public void RangedAttack()
