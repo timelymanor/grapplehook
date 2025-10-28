@@ -54,6 +54,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     [Header("References")]
     public Transform orientation;
 
+    [SerializeField] private Health health;
+
     [Header("States")]
     public MovementState state;
     public enum MovementState

@@ -2192,6 +2192,7 @@ GameObject:
   - component: {fileID: 1584887391}
   - component: {fileID: 1584887393}
   - component: {fileID: 1584887394}
+  - component: {fileID: 1584887395}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -2498,6 +2499,22 @@ MonoBehaviour:
   predictionSphereCastRadius: 3
   predictionPoint: {fileID: 1462660906}
   swingKey: 323
+--- !u!114 &1584887395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584887384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20944bf2645eea84f921dddc3321dbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 0
+  iFrames: 0
+  maxIFrames: 5
 --- !u!1 &1829743440
 GameObject:
   m_ObjectHideFlags: 0
