@@ -2299,6 +2299,7 @@ MonoBehaviour:
   cam: {fileID: 330585549}
   grappleFov: 95
   orientation: {fileID: 2025132306}
+  health: {fileID: 0}
   state: 0
   sliding: 0
   wallrunning: 0
@@ -3159,7 +3160,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
