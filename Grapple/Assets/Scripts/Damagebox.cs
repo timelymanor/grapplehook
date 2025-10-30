@@ -8,7 +8,12 @@ public class Damagebox : MonoBehaviour
     void OnCollisionStay(Collision collision)
     {
         Health health = collision.gameObject.GetComponent<Health>();
-        health.TakeDamage(damageAmount);
+        if (health != null)
+        {
+            health.TakeDamage(damageAmount);
+        }
+        
+        
     }
     
 }

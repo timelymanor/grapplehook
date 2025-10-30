@@ -57,10 +57,12 @@ public class EnemyAttacks : MonoBehaviour
 
     public void RangedAttack()
     {
+        transform.LookAt(player.position);
+        Vector3 targetPosition = player.position;
+        Vector3 spawnPos = transform.position + targetPosition * 1f;
         agent.SetDestination(transform.position);
-        Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity)
+        Rigidbody rb = Instantiate(projectile, spawnPos, Quaternion.LookRotation(targetPosition))
             .GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-        rb.AddForce(transform.up * 8f, ForceMode.Impulse);
     }
 }
