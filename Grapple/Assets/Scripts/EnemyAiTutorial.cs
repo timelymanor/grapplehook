@@ -8,6 +8,8 @@ public class EnemyAiTutorial : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
     [SerializeField] private EnemyAttacks em;
+    [SerializeField] private float patrolSpeed;
+    [SerializeField] private float chaseSpeed;
 
     //Patroling
     public Vector3 walkPoint;
@@ -45,6 +47,7 @@ public class EnemyAiTutorial : MonoBehaviour
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        agent.speed = patrolSpeed;
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
@@ -64,6 +67,7 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void ChasePlayer()
     {
+        agent.speed = chaseSpeed;
         agent.SetDestination(player.position);
     }
 

@@ -135,6 +135,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   em: {fileID: 6533794178084355747}
+  patrolSpeed: 5
+  chaseSpeed: 12
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   sightRange: 30
