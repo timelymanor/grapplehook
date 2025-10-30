@@ -12,7 +12,7 @@ public class SwingingDone : MonoBehaviour
 
     [Header("Swinging")]
     private float maxSwingDistance = 25f;
-    private Vector3 swingPoint;
+    [SerializeField] public GameObject swingPoint;
     private SpringJoint joint;
 
     [Header("OdmGear")]
@@ -29,6 +29,7 @@ public class SwingingDone : MonoBehaviour
     public RaycastHit predictionHit;
     public float predictionSphereCastRadius;
     public Transform predictionPoint;
+    private GameObject hitObject;
 
     [Header("Input")]
     public KeyCode swingKey = KeyCode.Mouse0;
@@ -72,14 +73,22 @@ public class SwingingDone : MonoBehaviour
                             out raycastHit, maxSwingDistance, whatIsGrappleable);
 
         Vector3 realHitPoint;
+        
+        
 
         // Option 1 - Direct Hit
         if (raycastHit.point != Vector3.zero)
+        {
             realHitPoint = raycastHit.point;
+            hitObject = raycastHit.collider.gameObject;
+        } 
 
         // Option 2 - Indirect (predicted) Hit
         else if (sphereCastHit.point != Vector3.zero)
+        {
             realHitPoint = sphereCastHit.point;
+            hitObject = sphereCastHit.collider.gameObject;
+        }
 
         // Option 3 - Miss
         else
@@ -113,12 +122,15 @@ public class SwingingDone : MonoBehaviour
 
         pm.swinging = true;
 
-        swingPoint = predictionHit.point;
+        // swingpoint.transform.parent = predictionHit.object.transform
+        swingPoint.transform.position = predictionHit.point;
+        swingPoint.transform.parent = hitObject.transform;
+        
         joint = player.gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
-        joint.connectedAnchor = swingPoint;
+        joint.connectedAnchor = swingPoint.transform.position;
 
-        float distanceFromPoint = Vector3.Distance(player.position, swingPoint);
+        float distanceFromPoint = Vector3.Distance(player.position, swingPoint.transform.position);
 
         // the distance grapple will try to keep from grapple point. 
         joint.maxDistance = distanceFromPoint * 0.8f;
@@ -186,10 +198,10 @@ public class SwingingDone : MonoBehaviour
             // shorten cable
             if (Input.GetKey(KeyCode.Space))
             {
-                Vector3 directionToPoint = swingPoint - transform.position;
+                Vector3 directionToPoint = swingPoint.transform.position - transform.position;
                 rb.AddForce(directionToPoint.normalized * forwardThrustForce * Time.deltaTime);
 
-                float distanceFromPoint = Vector3.Distance(transform.position, swingPoint);
+                float distanceFromPoint = Vector3.Distance(transform.position, swingPoint.transform.position);
 
                 joint.maxDistance = distanceFromPoint * 0.8f;
                 joint.minDistance = distanceFromPoint * 0.25f;
@@ -204,7 +216,7 @@ public class SwingingDone : MonoBehaviour
             // extend cable
             if (Input.GetKey(KeyCode.S))
             {
-                float extendedDistanceFromPoint = Vector3.Distance(transform.position, swingPoint) + extendCableSpeed;
+                float extendedDistanceFromPoint = Vector3.Distance(transform.position, swingPoint.transform.position) + extendCableSpeed;
 
                 joint.maxDistance = extendedDistanceFromPoint * 0.8f;
                 joint.minDistance = extendedDistanceFromPoint * 0.25f;
@@ -227,7 +239,7 @@ public class SwingingDone : MonoBehaviour
         if (!joint) return;
 
         currentGrapplePosition = 
-            Vector3.Lerp(currentGrapplePosition, swingPoint, Time.deltaTime * 8f);
+            Vector3.Lerp(currentGrapplePosition, swingPoint.transform.position, Time.deltaTime * 8f);
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, currentGrapplePosition);
