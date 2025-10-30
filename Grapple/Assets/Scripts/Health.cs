@@ -18,15 +18,19 @@ public class Health : MonoBehaviour
     {
         if (health <= 0)
         {
-            
+            Death();
         }
 
         iFrames--;
+        if (iFrames <= 0)
+        {
+            iFrames = 0;
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        if (iFrames > 0)
+        if (iFrames <= 0)
         {
             health -= damage;
             iFrames = maxIFrames;
