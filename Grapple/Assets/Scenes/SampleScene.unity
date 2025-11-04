@@ -1419,6 +1419,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Melee Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8576435246326686478, guid: 7dff6e6f5186e764abbefdc7704468f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2383,7 +2387,7 @@ MonoBehaviour:
   gunTip: {fileID: 1267771188}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   lr: {fileID: 19230486}
   maxGrappleDistance: 50
   grappleDelayTime: 0
@@ -2515,7 +2519,7 @@ MonoBehaviour:
   player: {fileID: 1584887386}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   pm: {fileID: 1584887389}
   swingPoint: {fileID: 413667120}
   orientation: {fileID: 2025132306}
@@ -3103,6 +3107,10 @@ PrefabInstance:
     - target: {fileID: 8576435246326686478, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
       propertyPath: m_Name
       value: Ranged Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576435246326686478, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

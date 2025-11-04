@@ -64,6 +64,5 @@ public class EnemyAttacks : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(direction);
         Rigidbody rb = Instantiate(projectile, spawnPos, rotation)
             .GetComponent<Rigidbody>();
-        rb.AddForce(direction * 32f, ForceMode.Impulse);
     }
 }
