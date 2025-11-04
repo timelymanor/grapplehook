@@ -38,8 +38,8 @@ public class EnemyAttacks : MonoBehaviour
         {
             if(enemyType == EnemyType.ranged)
                 RangedAttack();
-                else if (enemyType == EnemyType.melee)
-                    MeleeAttack();
+            else if (enemyType == EnemyType.melee)
+                MeleeAttack();
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -50,19 +50,20 @@ public class EnemyAttacks : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    public void MeleeAttack()
+    private void MeleeAttack()
     {
         agent.SetDestination(transform.position);
     }
 
-    public void RangedAttack()
+    private void RangedAttack()
     {
         transform.LookAt(player.position);
-        Vector3 targetPosition = player.position;
-        Vector3 spawnPos = transform.position + targetPosition * 1f;
+        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 spawnPos = transform.position + direction * 1f;
         agent.SetDestination(transform.position);
-        Rigidbody rb = Instantiate(projectile, spawnPos, Quaternion.LookRotation(targetPosition))
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        Rigidbody rb = Instantiate(projectile, spawnPos, rotation)
             .GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+        rb.AddForce(direction * 32f, ForceMode.Impulse);
     }
 }
