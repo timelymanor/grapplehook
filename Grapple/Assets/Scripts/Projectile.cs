@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float projectileSpread;
     private Rigidbody rb;
     private Transform player;
     private bool collided;
@@ -21,7 +24,10 @@ public class Projectile : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
         Vector3 direction = (player.position - transform.position).normalized;
-        rb.linearVelocity = direction * speed;
+        Vector3 randomOffset = Random.insideUnitSphere * projectileSpread;
+        Vector3 finalDirection = (direction + randomOffset).normalized;
+        transform.rotation = Quaternion.LookRotation(finalDirection);
+        rb.linearVelocity = transform.forward * speed;
         Despawn();
     }
     

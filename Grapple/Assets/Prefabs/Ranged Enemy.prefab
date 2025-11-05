@@ -180,3 +180,5 @@ MonoBehaviour:
   playerInSightRange: 0
   playerInAttackRange: 0
   projectile: {fileID: 817958453887038171, guid: 6b1117da64790c64d9ae874eef0c7fd1, type: 3}
+  numOfProjectiles: 1
+  projectileSpread: 90
