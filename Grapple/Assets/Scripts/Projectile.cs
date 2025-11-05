@@ -31,14 +31,8 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, 15f);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("hi");
         Destroy(gameObject);
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        collided = true;
     }
 }

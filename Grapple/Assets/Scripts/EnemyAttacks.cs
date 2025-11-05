@@ -19,6 +19,13 @@ public class EnemyAttacks : MonoBehaviour
         flyer
     }
 
+    [SerializeField] public enum RangedType
+    {
+        normal,
+        shotgun,
+        rocket
+    }
+
     [SerializeField] public EnemyType enemyType;
 
     private void Start()
