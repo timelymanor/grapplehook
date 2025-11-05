@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 5925331506199474566}
   - component: {fileID: 1762317383090519870}
   - component: {fileID: 3037393521971758739}
-  - component: {fileID: 8134885577410431160}
   - component: {fileID: 1454373139997877026}
-  - component: {fileID: 6533794178084355747}
   - component: {fileID: 4960277682400166955}
+  - component: {fileID: 6699155030362641586}
   m_Layer: 6
   m_Name: Melee Enemy
   m_TagString: Untagged
@@ -114,35 +113,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8134885577410431160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8576435246326686478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfbc10992437fb94f9702cadc153f258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 1454373139997877026}
-  player: {fileID: 0}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 256
-  em: {fileID: 6533794178084355747}
-  patrolSpeed: 5
-  chaseSpeed: 12
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
-  sightRange: 30
-  attackRange: 2
-  playerInSightRange: 0
-  playerInAttackRange: 0
 --- !u!195 &1454373139997877026
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -165,23 +135,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6533794178084355747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8576435246326686478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 437fc3612d3c4084f947cbe53a93dc4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 1454373139997877026}
-  timeBetweenAttacks: 0
-  alreadyAttacked: 0
-  projectile: {fileID: 0}
-  enemyType: 0
 --- !u!114 &4960277682400166955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +151,31 @@ MonoBehaviour:
   health: 0
   iFrames: 0
   maxIFrames: 0
+--- !u!114 &6699155030362641586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8576435246326686478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998ed89cb45fbc40ac814c92d4b67fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 1454373139997877026}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 256
+  timeBetweenAttacks: 0
+  alreadyAttacked: 0
+  patrolSpeed: 3
+  chaseSpeed: 12
+  walkPointRange: 5
+  sightRange: 40
+  attackRange: 10
+  playerInSightRange: 0
+  playerInAttackRange: 0

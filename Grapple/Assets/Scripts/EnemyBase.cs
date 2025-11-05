@@ -1,33 +1,36 @@
-﻿
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAiTutorial : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private Transform player;
-    [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
-    [SerializeField] private float patrolSpeed;
-    [SerializeField] private float chaseSpeed;
-
-    //Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
+    [Header("References")]
+    [SerializeField] protected NavMeshAgent agent;
+    protected Transform player;
+    [SerializeField] protected LayerMask whatIsGround, whatIsPlayer;
+    [Header("AttackSettings")]
+    [SerializeField] protected float timeBetweenAttacks;
+    [SerializeField] protected bool alreadyAttacked;
+    [Header("Behaviors")]
+    [SerializeField] protected float patrolSpeed;
+    [SerializeField] protected float chaseSpeed;
+    
+    protected Vector3 walkPoint;
+    protected bool walkPointSet;
+    [SerializeField] protected float walkPointRange;
 
     
 
     //States
-    [SerializeField] private float sightRange, attackRange;
-    [SerializeField] private bool playerInSightRange, playerInAttackRange;
+    [SerializeField] protected float sightRange, attackRange;
+    [SerializeField] protected bool playerInSightRange, playerInAttackRange;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
@@ -35,9 +38,10 @@ public class EnemyAiTutorial : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
 
-    private void Patroling()
+    protected virtual void Patroling()
     {
         if (!walkPointSet) SearchWalkPoint();
 
@@ -51,7 +55,7 @@ public class EnemyAiTutorial : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
-    private void SearchWalkPoint()
+    protected virtual void SearchWalkPoint()
     {
         //Calculate random point in range
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -63,18 +67,38 @@ public class EnemyAiTutorial : MonoBehaviour
             walkPointSet = true;
     }
 
-    private void ChasePlayer()
+    protected virtual void ChasePlayer()
     {
         agent.speed = chaseSpeed;
         agent.SetDestination(player.position);
     }
 
     
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+
+    protected virtual void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+    }
+
+    protected virtual void AttackPlayer()
+    {
+        transform.LookAt(player);
+        
+        
+    }
+    
+    protected virtual void ResetAttack()
+    {
+        alreadyAttacked = false;
+    }
+
 }
