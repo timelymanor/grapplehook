@@ -13,9 +13,13 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("Behaviors")]
     [SerializeField] protected float patrolSpeed;
     [SerializeField] protected float chaseSpeed;
-    
+
+    protected float chaseTime;
+    [SerializeField] protected float maxChaseTime;
+    protected bool sightObstructed;
     protected Vector3 walkPoint;
     protected bool walkPointSet;
+    protected Transform hitPoint;
     [SerializeField] protected float walkPointRange;
 
     
@@ -36,9 +40,22 @@ public abstract class EnemyBase : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        if ((!playerInSightRange && !playerInAttackRange) || sightObstructed) Patroling();
+        if (playerInSightRange && !playerInAttackRange && !sightObstructed) ChasePlayer();
+        if (playerInAttackRange && playerInSightRange && !sightObstructed) AttackPlayer();
+        
+        if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit, sightRange, whatIsGround))
+        {
+            if (chaseTime < 0)
+            {
+                sightObstructed = true;
+                chaseTime = 0;
+            }
+        }
+        else
+        {
+            sightObstructed = false;
+        }
     }
 
     protected virtual void Patroling()
