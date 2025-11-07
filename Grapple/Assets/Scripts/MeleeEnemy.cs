@@ -18,8 +18,13 @@ public class MeleeEnemy : EnemyBase
     {
         agent.SetDestination(transform.position);
         base.AttackPlayer();
-        am.SetTrigger("Attack");
-        MeleeAttack();
+        if (!alreadyAttacked)
+        {
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            am.SetTrigger("Attack");
+            MeleeAttack();
+        }   
+        
         
     }
 
@@ -27,6 +32,6 @@ public class MeleeEnemy : EnemyBase
     {
         if(Physics.SphereCast(attackPoint.position, hitRange, Vector3.forward,  out RaycastHit hit, 1f, LayerMask.NameToLayer("Player")))
         {
-            hit.collider.gameObject.GetComponent<Health>().TakeDamage(6);}
+            hit.collider.gameObject.GetComponentInParent<Health>().TakeDamage(6);}
     }
 }

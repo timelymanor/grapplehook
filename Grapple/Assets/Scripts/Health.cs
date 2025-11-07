@@ -30,11 +30,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (iFrames <= 0)
-        {
             health -= damage;
-            iFrames = maxIFrames;
-        }
     }
 
     public void Death()

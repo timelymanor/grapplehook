@@ -319,11 +319,11 @@ MonoBehaviour:
   chaseSpeed: 12
   walkPointRange: 5
   sightRange: 40
-  attackRange: 9.06
+  attackRange: 1.06
   playerInSightRange: 0
   playerInAttackRange: 0
   attackPoint: {fileID: 898797801125886388}
-  hitRange: 0
+  hitRange: 1
   am: {fileID: 783564978350985773}
 --- !u!95 &783564978350985773
 Animator:
