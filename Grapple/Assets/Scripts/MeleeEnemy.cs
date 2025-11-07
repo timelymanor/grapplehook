@@ -30,7 +30,7 @@ public class MeleeEnemy : EnemyBase
 
     public void MeleeAttack()
     {
-        if(Physics.SphereCast(attackPoint.position, hitRange, Vector3.forward,  out RaycastHit hit, 1f, LayerMask.NameToLayer("Player")))
+        if(Physics.SphereCast(attackPoint.position, hitRange, transform.forward,  out RaycastHit hit, 1f, LayerMask.NameToLayer("Player")))
         {
             hit.collider.gameObject.GetComponentInParent<Health>().TakeDamage(6);}
     }
