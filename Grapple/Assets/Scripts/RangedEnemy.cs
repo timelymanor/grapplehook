@@ -17,11 +17,18 @@ public class RangedEnemy : EnemyBase
             transform.LookAt(player.position);
             Vector3 direction = (player.position - transform.position).normalized;
             Vector3 spawnPos = transform.position + direction * 1f;
-            agent.SetDestination(transform.position);
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            for (int i = 0; i < numOfProjectiles; i++)
+            if (!sightObstructed)
             {
-                Rigidbody rb = Instantiate(projectile, spawnPos, rotation).GetComponent<Rigidbody>();
+                agent.SetDestination(transform.position);
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                for (int i = 0; i < numOfProjectiles; i++)
+                {
+                    Rigidbody rb = Instantiate(projectile, spawnPos, rotation).GetComponent<Rigidbody>();
+                }
+            }
+            else
+            {
+                agent.SetDestination(player.position);
             }
         }
     }

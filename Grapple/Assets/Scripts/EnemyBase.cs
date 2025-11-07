@@ -13,9 +13,7 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("Behaviors")]
     [SerializeField] protected float patrolSpeed;
     [SerializeField] protected float chaseSpeed;
-
-    protected float chaseTime;
-    [SerializeField] protected float maxChaseTime;
+    
     protected bool sightObstructed;
     protected Vector3 walkPoint;
     protected bool walkPointSet;
@@ -40,18 +38,13 @@ public abstract class EnemyBase : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if ((!playerInSightRange && !playerInAttackRange) || sightObstructed) Patroling();
-        if (playerInSightRange && !playerInAttackRange && !sightObstructed) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange && !sightObstructed) AttackPlayer();
-        
-        if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit, sightRange, whatIsGround))
-        {
-            if (chaseTime < 0)
-            {
-                sightObstructed = true;
-                chaseTime = 0;
-            }
-        }
+        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+
+        if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit,
+                sightRange, whatIsGround))
+             sightObstructed = true;
         else
         {
             sightObstructed = false;
@@ -109,6 +102,10 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void AttackPlayer()
     {
         transform.LookAt(player);
+        if (sightObstructed)
+        {
+            agent.SetDestination(player.position);
+        }
         
         
     }
