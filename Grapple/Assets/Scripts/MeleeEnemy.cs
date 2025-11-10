@@ -30,8 +30,21 @@ public class MeleeEnemy : EnemyBase
 
     public void MeleeAttack()
     {
-        if(Physics.SphereCast(attackPoint.position, hitRange, transform.forward,  out RaycastHit hit, 1f, LayerMask.NameToLayer("Player")))
+        Collider[] hits = Physics.OverlapSphere(attackPoint.position, hitRange, 1 << LayerMask.NameToLayer("Player"));
+        foreach (Collider hit in hits)
         {
-            hit.collider.gameObject.GetComponentInParent<Health>().TakeDamage(6);}
+            Health health = hit.GetComponentInParent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(10f, 30f);
+            }
+        }
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, hitRange);
     }
 }

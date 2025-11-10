@@ -10,7 +10,7 @@ public class Damagebox : MonoBehaviour
         Health health = collision.gameObject.GetComponent<Health>();
         if (health != null)
         {
-            health.TakeDamage(damageAmount);
+            health.TakeDamage(damageAmount, 10f);
         }
         
         
