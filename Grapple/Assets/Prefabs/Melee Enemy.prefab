@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4056121570285591338}
   - component: {fileID: 1773376480737839256}
   - component: {fileID: 1883139350360058982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2954687759902535307}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Weapon Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,9 +156,9 @@ GameObject:
   - component: {fileID: 4960277682400166955}
   - component: {fileID: 6699155030362641586}
   - component: {fileID: 783564978350985773}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Melee Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 898797801125886388}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Attack Point
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}

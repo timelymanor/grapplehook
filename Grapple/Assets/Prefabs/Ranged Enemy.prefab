@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5137340193920655316}
   m_Layer: 9
   m_Name: Ranged Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   health: 0
   iFrames: 0
   maxIFrames: 0
+  hit: 0
 --- !u!114 &5137340193920655316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,4 +182,3 @@ MonoBehaviour:
   playerInAttackRange: 0
   projectile: {fileID: 817958453887038171, guid: 6b1117da64790c64d9ae874eef0c7fd1, type: 3}
   numOfProjectiles: 1
-  projectileSpread: 90

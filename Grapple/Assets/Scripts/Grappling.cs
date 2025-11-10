@@ -1,4 +1,6 @@
+using Unity.Hierarchy;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Grappling : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class Grappling : MonoBehaviour
     [SerializeField] private float grappleDelayTime;
     public float overshootYAxis;
     private Vector3 grapplePoint;
+    private GameObject grappledEnemy;
 
     [Header("Cooldown")] 
     [SerializeField] private float grapplingCd;
@@ -56,9 +59,20 @@ public class Grappling : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
-            grapplePoint = hit.point;
             
-            Invoke(nameof(ExecuteGrapple), grappleDelayTime);
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                grappledEnemy = hit.collider.gameObject;
+                Invoke(nameof(GrapplingEnemy), grappleDelayTime);
+            }
+            else
+            {
+                grapplePoint = hit.point;
+                Invoke(nameof(ExecuteGrapple), grappleDelayTime);
+                
+            }
+            
+            
         }
         else
         {
@@ -95,5 +109,16 @@ public class Grappling : MonoBehaviour
         grapplingCdTimer = grapplingCd;
         
         lr.enabled = false;
+    }
+
+    private void GrapplingEnemy()
+    {
+        pm.freeze = false;
+
+        NavMeshAgent agent = grappledEnemy.GetComponent<NavMeshAgent>();
+        Rigidbody rig = grappledEnemy.gameObject.GetComponent<Rigidbody>();
+        Vector3 pullDirection = (transform.position - rig.transform.position).normalized;
+        float pullForce = 10f; 
+        rig.AddForce(pullDirection * pullForce, ForceMode.Force); 
     }
 }
