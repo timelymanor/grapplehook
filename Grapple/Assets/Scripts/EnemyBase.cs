@@ -32,22 +32,26 @@ public abstract class EnemyBase : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
-        //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
-
-        if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit,
-                sightRange, whatIsGround))
-             sightObstructed = true;
-        else
+        if (agent.enabled)
         {
-            sightObstructed = false;
+            //Check for sight and attack range
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+            if (!playerInSightRange && !playerInAttackRange) Patroling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+
+            if (Physics.Raycast(transform.position, (player.position - transform.position).normalized,
+                    out RaycastHit hit,
+                    sightRange, whatIsGround))
+                sightObstructed = true;
+            else
+            {
+                sightObstructed = false;
+            }
         }
     }
 
@@ -55,7 +59,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (!walkPointSet) SearchWalkPoint();
 
-        if (walkPointSet)
+        if (walkPointSet && agent.enabled)
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
@@ -80,7 +84,8 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void ChasePlayer()
     {
         agent.speed = chaseSpeed;
-        agent.SetDestination(player.position);
+        if (agent.enabled)
+            agent.SetDestination(player.position);
     }
 
     
@@ -102,7 +107,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void AttackPlayer()
     {
         transform.LookAt(player);
-        if (sightObstructed)
+        if (sightObstructed && agent.enabled)
         {
             agent.SetDestination(player.position);
         }

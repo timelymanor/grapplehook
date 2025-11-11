@@ -1921,10 +1921,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5137340193920655316, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
-      propertyPath: maxChaseTime
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 8576435246326686478, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
       propertyPath: m_Name
       value: Ranged Enemy
@@ -2765,6 +2761,8 @@ MonoBehaviour:
   overshootYAxis: 2
   grapplingCd: 1
   grappleKey: 324
+  agent: {fileID: 0}
+  rig: {fileID: 0}
 --- !u!120 &1584887393
 LineRenderer:
   serializedVersion: 2
@@ -2915,7 +2913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20944bf2645eea84f921dddc3321dbb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1e+13
   health: 0
   iFrames: 0
   maxIFrames: 3
@@ -3583,7 +3581,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65
   m_UseGeometry: 1
-  m_DefaultArea: 2
+  m_DefaultArea: 0
   m_GenerateLinks: 1
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +28,8 @@ public class Grappling : MonoBehaviour
     [SerializeField] private KeyCode grappleKey = KeyCode.Mouse1;
 
     private bool grappling;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Rigidbody rig;
 
     private void Start()
     {
@@ -115,10 +119,22 @@ public class Grappling : MonoBehaviour
     {
         pm.freeze = false;
 
-        NavMeshAgent agent = grappledEnemy.GetComponent<NavMeshAgent>();
-        Rigidbody rig = grappledEnemy.gameObject.GetComponent<Rigidbody>();
+        agent = grappledEnemy.GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+        rig = grappledEnemy.gameObject.GetComponent<Rigidbody>();
+        rig.isKinematic = false;
         Vector3 pullDirection = (transform.position - rig.transform.position).normalized;
         float pullForce = 10f; 
         rig.AddForce(pullDirection * pullForce, ForceMode.Force); 
+        StartCoroutine(GrappleEnemyWait());
+        
+        
+    }
+
+    private IEnumerator GrappleEnemyWait()
+    {
+        yield return new WaitForSeconds(26f);
+        agent.enabled = true;
+        rig.isKinematic = true;
     }
 }

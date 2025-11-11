@@ -16,7 +16,8 @@ public class MeleeEnemy : EnemyBase
 
     protected override void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
+        if (agent.enabled)
+            agent.SetDestination(transform.position);
         base.AttackPlayer();
         if (!alreadyAttacked)
         {

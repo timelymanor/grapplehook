@@ -10,7 +10,7 @@ public class RangedEnemy : EnemyBase
     protected override void AttackPlayer()
     {
         base.AttackPlayer();
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && agent.enabled)
         {
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -18,7 +18,8 @@ public class RangedEnemy : EnemyBase
             Vector3 direction = (player.position - transform.position).normalized;
             Vector3 spawnPos = transform.position + direction * 1f;
             if (!sightObstructed)
-            {
+            {  
+                
                 agent.SetDestination(transform.position);
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 for (int i = 0; i < numOfProjectiles; i++)
