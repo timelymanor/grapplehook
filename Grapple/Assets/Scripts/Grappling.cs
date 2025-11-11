@@ -133,7 +133,7 @@ public class Grappling : MonoBehaviour
 
     private IEnumerator GrappleEnemyWait()
     {
-        yield return new WaitForSeconds(26f);
+        yield return new WaitForSeconds(2f);
         agent.enabled = true;
         rig.isKinematic = true;
     }
