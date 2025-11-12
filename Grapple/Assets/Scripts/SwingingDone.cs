@@ -240,6 +240,7 @@ public class SwingingDone : MonoBehaviour
 
         currentGrapplePosition = 
             Vector3.Lerp(currentGrapplePosition, swingPoint.transform.position, Time.deltaTime * 8f);
+        predictionPoint.position = currentGrapplePosition;
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, currentGrapplePosition);

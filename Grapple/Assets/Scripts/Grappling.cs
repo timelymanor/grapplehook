@@ -17,7 +17,7 @@ public class Grappling : MonoBehaviour
     [SerializeField] private float maxGrappleDistance;
     [SerializeField] private float grappleDelayTime;
     public float overshootYAxis;
-    private Vector3 grapplePoint;
+    [SerializeField] private GameObject grapplePoint;
     private GameObject grappledEnemy;
 
     [Header("Cooldown")] 
@@ -66,12 +66,15 @@ public class Grappling : MonoBehaviour
             
             if (hit.collider.CompareTag("Enemy"))
             {
+                grapplePoint.transform.position = hit.point;
+                grapplePoint.transform.parent = hit.collider.gameObject.transform;
                 grappledEnemy = hit.collider.gameObject;
                 Invoke(nameof(GrapplingEnemy), grappleDelayTime);
             }
             else
             {
-                grapplePoint = hit.point;
+                grapplePoint.transform.position = hit.point;
+                grapplePoint.transform.parent = hit.collider.gameObject.transform;
                 Invoke(nameof(ExecuteGrapple), grappleDelayTime);
                 
             }
@@ -80,12 +83,12 @@ public class Grappling : MonoBehaviour
         }
         else
         {
-            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
+            grapplePoint.transform.position = cam.position + cam.forward * maxGrappleDistance;
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
         
         lr.enabled = true;
-        lr.SetPosition(1, grapplePoint);
+        lr.SetPosition(1, grapplePoint.transform.position);
     }
 
     private void ExecuteGrapple()
@@ -94,12 +97,12 @@ public class Grappling : MonoBehaviour
 
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
 
-        float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
+        float grapplePointRelativeYPos = grapplePoint.transform.position.y - lowestPoint.y;
         float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
 
         if (grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
 
-        pm.JumpToPosition(grapplePoint, highestPointOnArc);
+        pm.JumpToPosition(grapplePoint.transform.position, highestPointOnArc);
 
         Invoke(nameof(StopGrapple), 1f);
     }
@@ -123,9 +126,6 @@ public class Grappling : MonoBehaviour
         agent.enabled = false;
         rig = grappledEnemy.gameObject.GetComponent<Rigidbody>();
         rig.isKinematic = false;
-        Vector3 pullDirection = (transform.position - rig.transform.position).normalized;
-        float pullForce = 10f; 
-        rig.AddForce(pullDirection * pullForce, ForceMode.Force); 
         StartCoroutine(GrappleEnemyWait());
         
         
@@ -133,7 +133,24 @@ public class Grappling : MonoBehaviour
 
     private IEnumerator GrappleEnemyWait()
     {
-        yield return new WaitForSeconds(2f);
+        while (grappledEnemy != null)
+        {
+            Vector3 direction = (gunTip.transform.position - rig.position).normalized;
+            float distance = (gunTip.transform.position - rig.position).magnitude;
+            
+            float pullForce = 30f;
+            rig.AddForce(direction * pullForce * Time.deltaTime, ForceMode.VelocityChange);
+            
+            if (Input.GetKeyUp(grappleKey) || distance < 1f)
+            {
+                rig.linearVelocity = Vector3.zero;
+                grapplePoint.transform.parent = null;
+                break;
+            }
+
+            yield return null;
+        }
+        
         agent.enabled = true;
         rig.isKinematic = true;
     }

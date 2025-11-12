@@ -1361,6 +1361,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2366016038013726478, guid: 7dff6e6f5186e764abbefdc7704468f3, type: 3}
+      propertyPath: m_Constraints
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4281235400952264714, guid: 7dff6e6f5186e764abbefdc7704468f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.1
@@ -1920,6 +1924,10 @@ PrefabInstance:
     - target: {fileID: 4281235400952264714, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469772286855203031, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
+      propertyPath: m_Constraints
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 8576435246326686478, guid: b8b3b07dd33b7ec4d917f24c0095463e, type: 3}
       propertyPath: m_Name
@@ -2759,6 +2767,7 @@ MonoBehaviour:
   maxGrappleDistance: 50
   grappleDelayTime: 0
   overshootYAxis: 2
+  grapplePoint: {fileID: 413667120}
   grapplingCd: 1
   grappleKey: 324
   agent: {fileID: 0}
