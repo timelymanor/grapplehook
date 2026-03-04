@@ -373,6 +373,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public float getPlayerSpeed()
     {
-        return rb.velocity.magnitude;
+        return rb.linearVelocity.magnitude;
     }
 }
