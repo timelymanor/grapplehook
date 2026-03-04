@@ -370,4 +370,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
         return velocityXZ + velocityY;
     }
+
+    public float getPlayerSpeed()
+    {
+        return rb.velocity.magnitude;
+    }
 }

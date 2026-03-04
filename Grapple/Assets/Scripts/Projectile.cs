@@ -22,7 +22,11 @@ public class Projectile : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
+        float randomX = Random.Range(-projectileSpread, projectileSpread);
+        float randomY = Random.Range(-projectileSpread, projectileSpread);
+        transform.Rotate(randomX, randomY, 0);
         rb.linearVelocity = transform.forward * speed;
+
         Despawn();
     }
     
