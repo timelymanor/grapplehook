@@ -5,7 +5,7 @@ public class RangedEnemy : EnemyBase
 
     
     [SerializeField] private GameObject projectile;
-    [SerializeField] private float numOfProjectiles;
+    [SerializeField] private int numOfProjectiles;
     
     protected override void AttackPlayer()
     {

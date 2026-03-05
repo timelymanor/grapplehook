@@ -46,6 +46,7 @@ public class Projectile : MonoBehaviour
         {
             health.TakeDamage(damageAmount, 3f);
         }
-        Destroy(gameObject);
+        if (other.tag != "Enemy" || other.tag != "Projectile")
+            Destroy(gameObject);
     }
 }
