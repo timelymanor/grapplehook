@@ -6,7 +6,7 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("References")]
     [SerializeField] protected NavMeshAgent agent;
     protected Transform player;
-    protected Health playerHealth;
+    private Health playerHealth;
     [SerializeField] protected LayerMask whatIsGround, whatIsPlayer;
     [Header("AttackSettings")]
     [SerializeField] protected float timeBetweenAttacks;
