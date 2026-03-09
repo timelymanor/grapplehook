@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float projectileSpread;
+    private float spread;
     [SerializeField] private float damageAmount;
     private Rigidbody rb;
     private Transform player;
@@ -23,10 +24,10 @@ public class Projectile : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         pma = player.GetComponent<PlayerMovementAdvanced>();
-        projectileSpread = pma.getPlayerSpeed() / 2;
+        spread = pma.getPlayerSpeed() / 4 + projectileSpread;
         rb = GetComponent<Rigidbody>();
-        float randomX = Random.Range(-projectileSpread, projectileSpread);
-        float randomY = Random.Range(-projectileSpread, projectileSpread);
+        float randomX = Random.Range(-spread, spread);
+        float randomY = Random.Range(-spread, spread);
         transform.Rotate(randomX, randomY, 0);
         rb.linearVelocity = transform.forward * speed;
 
@@ -36,7 +37,7 @@ public class Projectile : MonoBehaviour
 
     private void Despawn()
     {
-        Destroy(gameObject, 15f);
+        Destroy(gameObject, 5f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,7 +47,9 @@ public class Projectile : MonoBehaviour
         {
             health.TakeDamage(damageAmount, 3f);
         }
-        if (other.tag != "Enemy" || other.tag != "Projectile")
+        if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile"))
+        {
             Destroy(gameObject);
+        }
     }
 }

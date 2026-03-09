@@ -9,6 +9,8 @@ public class Health : MonoBehaviour
     [SerializeField] private float iFrames;
     [SerializeField] private float maxIFrames;
     [SerializeField] private bool hit;
+    [SerializeField] private GameObject gameOverScreen;
+    public bool isDead = false;
 
     void Start()
     {
@@ -57,7 +59,45 @@ public class Health : MonoBehaviour
 
     public void Death()
     {
-        Destroy(gameObject);
+        if (isDead) return;
+        isDead = true;
+        if (gameObject.CompareTag("Player"))
+        {
+            
+            GetComponent<Sliding>().enabled = false;
+            GetComponent<PlayerMovementAdvanced>().enabled = false;
+            GetComponent<WallRunning>().enabled = false;
+            GetComponent<Grappling>().enabled = false;
+            GetComponent<SwingingDone>().enabled = false;
+
+            
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.freezeRotation = false; 
+            rb.useGravity = true;
+
+            
+            rb.AddForce(Vector3.forward * 2f, ForceMode.Impulse); 
+
+            
+            ShowGameOver();
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+
+
+        
     }
-    
+    private void ShowGameOver()
+    {
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+            
+            // Unlock the cursor so the player can actually click 'Restart'
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 }

@@ -6,6 +6,7 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("References")]
     [SerializeField] protected NavMeshAgent agent;
     protected Transform player;
+    protected Health playerHealth;
     [SerializeField] protected LayerMask whatIsGround, whatIsPlayer;
     [Header("AttackSettings")]
     [SerializeField] protected float timeBetweenAttacks;
@@ -29,6 +30,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void Awake()
     {
         player = GameObject.Find("PlayerObj").transform;
+        playerHealth = player.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -83,6 +85,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void ChasePlayer()
     {
+        if (playerHealth.isDead) return;
         agent.speed = chaseSpeed;
         if (agent.enabled)
             agent.SetDestination(player.position);
@@ -106,6 +109,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void AttackPlayer()
     {
+        if (playerHealth.isDead) return;
         transform.LookAt(player);
         if (sightObstructed && agent.enabled)
         {
