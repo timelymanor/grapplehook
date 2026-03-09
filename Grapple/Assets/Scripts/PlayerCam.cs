@@ -11,25 +11,37 @@ public class PlayerCam : MonoBehaviour
 
     private float xRotation;
     private float yRotation;
+    private GameObject player;
+    private Health playerHealth;
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<Health>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void Update()
     {
-        // get mouse input
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY;
+        if (!playerHealth.isDead)
+        {
+            // get mouse input
+            float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX;
+            float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        
-        camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0); 
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     public void DoFov(float endValue)

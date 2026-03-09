@@ -7,9 +7,9 @@ public class MeleeEnemy : EnemyBase
     [SerializeField] private float hitRange;
     [SerializeField] private Animator am;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         
         am = GetComponent<Animator>();
     }

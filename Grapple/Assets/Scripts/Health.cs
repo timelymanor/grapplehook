@@ -91,6 +91,11 @@ public class Health : MonoBehaviour
     }
     private void ShowGameOver()
     {
+        while (Time.timeScale > 0f)
+        {
+            Time.timeScale -= 0.1f;
+            Debug.Log(Time.timeScale);
+        }
         if (gameOverScreen != null)
         {
             gameOverScreen.SetActive(true);

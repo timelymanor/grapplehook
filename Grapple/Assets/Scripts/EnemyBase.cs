@@ -29,8 +29,23 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        player = GameObject.Find("PlayerObj").transform;
-        playerHealth = player.GetComponent<Health>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            playerHealth = playerObj.GetComponent<Health>(); 
+
+            if (playerHealth == null)
+            {
+                Debug.LogError($"Enemy {gameObject.name} found Player, but Player is missing the Health script!");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Enemy {gameObject.name} couldn't find an object with the tag 'Player'!");
+        }
+
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -99,13 +114,7 @@ public abstract class EnemyBase : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
-
-
-    protected virtual void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        
-    }
+    
 
     protected virtual void AttackPlayer()
     {
