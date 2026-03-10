@@ -3,24 +3,24 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
+public enum ProjectileType
+{
+    normal,
+    fire
+}
 public class Projectile : MonoBehaviour
 {
     
 
-    [SerializeField] private float damageAmount;
-    
+    public float damageAmount;
+    public float lifetime;
+    [SerializeField] public ProjectileType projectileType;
 
     
-    public enum ProjectileType
-    {
-        normal,
-        fire
-    }
+
 
     void Start()
     {
-       
-        
 
         Despawn();
     }
